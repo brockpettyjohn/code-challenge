@@ -1,0 +1,26 @@
+<h1 id="tableLabel">Weather forecast</h1>
+
+<input class="form-control search-input d-inline" [ngModel]="searchTerm" (ngModelChange)="filterAccounts($event)">
+
+<p *ngIf="isSearching"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="accounts && !isSearching">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Address</th>
+      <th>Age</th>
+      <th>Interests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let account of filteredAccounts">
+      <td>{{ account.firstName }}</td>
+      <td>{{ account.lastName }}</td>
+      <td>{{ account.address }}</td>
+      <td>{{ account.age }}</td>
+      <td>{{ account.interests }}</td>
+    </tr>
+  </tbody>
+</table>
