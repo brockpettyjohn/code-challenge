@@ -1,8 +1,9 @@
-<h1 id="tableLabel">Weather forecast</h1>
+<h1 id="tableLabel">Account Search</h1>
 
 <input class="form-control search-input d-inline" [ngModel]="searchTerm" (ngModelChange)="filterAccounts($event)">
+<a routerLink="add-account">Add Account +</a>
 
-<p *ngIf="isSearching"><em>Loading...</em></p>
+<p *ngIf="isSearching || !filteredAccounts"><em>Retrieving results...</em></p>
 
 <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="accounts && !isSearching">
   <thead>

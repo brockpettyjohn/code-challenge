@@ -1,0 +1,23 @@
+<div>
+    <div class="form-group col-md-8">
+        <label for="firstName">First Name</label>
+        <input id="firstName" class="form-control" [(ngModel)]="firstName" required>
+    </div>
+    <div class="form-group col-md-8">
+        <label for="lastName">Last Name</label>
+        <input id="lastName" class="form-control" [(ngModel)]="lastName" required>
+    </div>
+    <div class="form-group col-md-8">
+        <label for="address">Address</label>
+        <input id="address" class="form-control" [(ngModel)]="address" required>
+    </div>
+    <div class="form-group col-md-2">
+        <label for="age">Age</label>
+        <input id="age" type="number" class="form-control" [(ngModel)]="age" required>
+    </div>
+    <div class="form-group col-md-8">
+        <label for="interests">Interests</label>
+        <input id="interests" class="form-control" [(ngModel)]="interests" required>
+    </div>
+    <button (click)="createAccount()">Submit</button>
+</div>

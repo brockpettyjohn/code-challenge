@@ -11,8 +11,15 @@ export class DataService {
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
+  createAccount(newAccount: Account) {
+    return this.http.post<Account>(this.baseUrl + 'account', newAccount, this.getHttpOptions()).pipe(
+      tap(r => this.checkForErrorInResponse(r)),
+      catchError(this.handleError<Account[]>('createAccount'))
+    );
+  }
+
   getAll() {
-    return this.http.get<Account[]>(this.baseUrl + 'weatherforecast').pipe(
+    return this.http.get<any>(this.baseUrl + 'account').pipe(
       tap(r => this.checkForErrorInResponse(r)),
       catchError(this.handleError<Account[]>('getAccount'))
     );
@@ -28,11 +35,6 @@ export class DataService {
     console.log('response: ', response);
     var errorMessage = response && response['errorMessage'] || null;
     throw new Error(errorMessage);
-  }
-
-
-  createAccount() {
-    this.http.post<Account[]>(this.baseUrl + 'weatherforecast', {}).subscribe(result => console.log(result));
   }
 
   getHttpOptions(args: { [param: string]: string | string[]; } = undefined) {
