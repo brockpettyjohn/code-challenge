@@ -15,7 +15,7 @@ export class HomeComponent {
   length: number;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private dataService: DataService) {
-    //I realize putting this here isn't a best practice.  Had trouble getting the service to resolve the subscribe and decided to move oon because of time.
+    //I realize putting this here isn't a best practice.  Had trouble getting the service to resolve the subscribe and decided to move on because of time.
     http.get<Account[]>(baseUrl + 'account').subscribe(result => {
       this.accounts = result;
       this.filteredAccounts = this.accounts;

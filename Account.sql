@@ -5,6 +5,7 @@ CREATE TABLE Account
 	LastName VARCHAR (50) NOT NULL,
     Address VARCHAR (255) NOT NULL, 
     Age integer NOT NULL, 
-    Interests VARCHAR(256) NOT NULL
+    Interests VARCHAR(256) NOT NULL,
+    ImageUrl varvhar(255)
 );
 

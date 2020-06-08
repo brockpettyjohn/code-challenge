@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using HealthCatalystBackend.Models;
 using HealthCatalystBackend.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -30,5 +34,13 @@ namespace HealthCatalystBackend.Controllers
             AccountRepository.CreateAccount(request);
             return Ok(request);
         }
+
+        // [HttpPost]
+        // [Route("image-upload")]
+        // public ActionResult UploadImage()
+        // {
+        //     AccountRepository.UploadImage(Request.Body);
+        //     return Ok();
+        // }
     }
 }

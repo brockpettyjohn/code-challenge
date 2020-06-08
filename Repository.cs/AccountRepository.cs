@@ -5,6 +5,8 @@ using Dapper;
 using System.Data;
 using Npgsql;
 using HealthCatalystBackend.Models;
+using System;
+using System.IO;
 
 namespace HealthCatalystBackend.Repository
 {
@@ -36,21 +38,40 @@ namespace HealthCatalystBackend.Repository
 
         public void CreateAccount(Account item)
         {
+            string imageName = null;
+            imageName = new String(Path.GetFileNameWithoutExtension(item.ImageUrl).Take(10).ToArray()).Replace(" ", ".");
+            item.ImageUrl = imageName;
+            imageName = imageName + DateTime.Now.ToString("yymmssfff");
+
             using (IDbConnection dbConnection = Connection)
             {
                 dbConnection.Open();
-                dbConnection.Execute("INSERT INTO Account (firstname, lastname, address, age, interests ) VALUES(@FirstName,@LastName,@Address,@Age,@Interests)",
+                dbConnection.Execute("INSERT INTO Account (firstname, lastname, address, age, interests, imageurl ) VALUES(@FirstName,@LastName,@Address,@Age,@Interests,@ImageUrl)",
                 new
                 {
                     FirstName = item.FirstName,
                     LastName = item.LastName,
                     Address = item.Address,
                     Age = item.Age,
-                    Interests = item.Interests
+                    Interests = item.Interests,
+                    ImageUrl = item.ImageUrl
                 });
             }
 
         }
+
+        // public void UploadImage(Stream imageStream)
+        // {
+        //     StreamReader reader = new StreamReader(imageStream);
+        //     string text = reader.ReadToEnd();
+
+        //     var bytes = Convert.FromBase64String(text);
+        //     using (var imageFile = new FileStream(filePath, FileAccess.Write))
+        //     {
+        //         imageFile.Write(bytes, 0, bytes.Length);
+        //         imageFile.Flush();
+        //     }
+        // }
 
 
 

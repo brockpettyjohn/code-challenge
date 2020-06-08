@@ -25,6 +25,13 @@ export class DataService {
     );
   }
 
+  uploadImage(imageFile: string) {
+    return this.http.post<string>(this.baseUrl + 'account/image-upload', imageFile).pipe(
+      tap(r => this.checkForErrorInResponse(r)),
+      catchError(this.handleError<Account[]>('uploadImage'))
+    );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       return of(result as T);

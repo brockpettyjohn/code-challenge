@@ -4,4 +4,5 @@ export class Account {
     address: string;
     age: number;
     interests: string;
+    imageUrl: string;
 }

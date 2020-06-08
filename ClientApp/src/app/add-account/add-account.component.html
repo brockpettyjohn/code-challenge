@@ -19,5 +19,11 @@
         <label for="interests">Interests</label>
         <input id="interests" class="form-control" [(ngModel)]="interests" required>
     </div>
+   
     <button (click)="createAccount()">Submit</button>
+</div>
+<div class="col-md-8 mb-2">
+    <span>File Upload</span>
+    <img [src]="imageFile" style="width:250px;height: 200px">
+    <input type="file" (change)="onFileSelected($event)">
 </div>
