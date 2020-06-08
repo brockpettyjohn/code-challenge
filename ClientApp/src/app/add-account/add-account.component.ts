@@ -38,7 +38,7 @@ export class AddAccountComponent {
     }, error => {
       console.error(error)
     });
-    // this.uploadFile();
+    this.uploadFile();
     this.newAccount = new Account();
   }
 
@@ -53,12 +53,11 @@ export class AddAccountComponent {
     reader.readAsDataURL(this.selectedFile);
   }
 
-  // uploadFile() {
-  //   console.log(this.imageFile);
-  //   this.dataService.uploadImage(this.imageFile).subscribe(response => {
-  //     console.log("file uploaded: " + response)
-  //   }, error => {
-  //     console.error(error);
-  //   })
-  // }
+  uploadFile() {
+    this.dataService.uploadImage(this.selectedFile).subscribe(response => {
+      console.log("file uploaded: " + response)
+    }, error => {
+      console.error(error);
+    })
+  }
 }

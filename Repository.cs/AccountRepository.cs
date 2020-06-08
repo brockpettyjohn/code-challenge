@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Dapper;
 using System.Data;
@@ -7,15 +6,21 @@ using Npgsql;
 using HealthCatalystBackend.Models;
 using System;
 using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
 namespace HealthCatalystBackend.Repository
 {
     public class AccountRepository : IRepository<Account>
     {
+
         private string connectionString;
-        public AccountRepository(IConfiguration configuration)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public AccountRepository(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             connectionString = configuration.GetValue<string>("DBInfo:ConnectionString");
+            _hostingEnvironment = hostingEnvironment;
         }
 
         internal IDbConnection Connection
@@ -25,7 +30,6 @@ namespace HealthCatalystBackend.Repository
                 return new NpgsqlConnection(connectionString);
             }
         }
-
 
         public IEnumerable<Account> GetAll()
         {
@@ -38,11 +42,6 @@ namespace HealthCatalystBackend.Repository
 
         public void CreateAccount(Account item)
         {
-            string imageName = null;
-            imageName = new String(Path.GetFileNameWithoutExtension(item.ImageUrl).Take(10).ToArray()).Replace(" ", ".");
-            item.ImageUrl = imageName;
-            imageName = imageName + DateTime.Now.ToString("yymmssfff");
-
             using (IDbConnection dbConnection = Connection)
             {
                 dbConnection.Open();
@@ -60,24 +59,23 @@ namespace HealthCatalystBackend.Repository
 
         }
 
-        // public void UploadImage(Stream imageStream)
-        // {
-        //     StreamReader reader = new StreamReader(imageStream);
-        //     string text = reader.ReadToEnd();
+        public void AddFile(IFormFile file)
+        {
+            if (file == null) throw new Exception("File is null");
+            if (file.Length == 0) throw new Exception("File is empty");
 
-        //     var bytes = Convert.FromBase64String(text);
-        //     using (var imageFile = new FileStream(filePath, FileAccess.Write))
-        //     {
-        //         imageFile.Write(bytes, 0, bytes.Length);
-        //         imageFile.Flush();
-        //     }
-        // }
-
-
-
-
-
-
-
+            using (Stream stream = file.OpenReadStream())
+            {
+                using (var binaryReader = new BinaryReader(stream))
+                {
+                    var fileContent = binaryReader.ReadBytes((int)file.Length);
+                    var filePath = Path.Combine(_hostingEnvironment.WebRootPath + "/Images/", file.FileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyToAsync(fileStream);
+                    }
+                }
+            }
+        }
     }
 }

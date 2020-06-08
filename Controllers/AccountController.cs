@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
 using HealthCatalystBackend.Models;
 using HealthCatalystBackend.Repository;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 namespace HealthCatalystBackend.Controllers
 {
@@ -18,9 +15,9 @@ namespace HealthCatalystBackend.Controllers
 
         private readonly AccountRepository AccountRepository;
 
-        public AccountController(IConfiguration configuration)
+        public AccountController(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
-            AccountRepository = new AccountRepository(configuration);
+            AccountRepository = new AccountRepository(configuration, hostingEnvironment);
         }
         [HttpGet]
         public IEnumerable<Account> Get()
@@ -29,18 +26,18 @@ namespace HealthCatalystBackend.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateAccount( Account request)
+        public ActionResult CreateAccount(Account request)
         {
             AccountRepository.CreateAccount(request);
             return Ok(request);
         }
 
-        // [HttpPost]
-        // [Route("image-upload")]
-        // public ActionResult UploadImage()
-        // {
-        //     AccountRepository.UploadImage(Request.Body);
-        //     return Ok();
-        // }
+        [HttpPost]
+        [Route("image-upload")]
+        public ActionResult UploadImage(IFormFile file)
+        {
+           AccountRepository.AddFile(file);
+           return Ok();
+        }
     }
 }

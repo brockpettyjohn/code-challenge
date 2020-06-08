@@ -17,6 +17,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let account of filteredAccounts">
+      <img src="../../../.././wwwroot/Images/{{account.imageUrl}}">
       <td>{{ account.firstName }}</td>
       <td>{{ account.lastName }}</td>
       <td>{{ account.address }}</td>

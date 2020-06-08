@@ -25,8 +25,10 @@ export class DataService {
     );
   }
 
-  uploadImage(imageFile: string) {
-    return this.http.post<string>(this.baseUrl + 'account/image-upload', imageFile).pipe(
+  uploadImage(imageFile: File) {
+    var input = new FormData();
+    input.append("file", imageFile);
+    return this.http.post<File>(this.baseUrl + 'account/image-upload', input).pipe(
       tap(r => this.checkForErrorInResponse(r)),
       catchError(this.handleError<Account[]>('uploadImage'))
     );
