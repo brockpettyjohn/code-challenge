@@ -1,0 +1,2 @@
+--run dotnet install 
+--everything should run from there on localhost:5001 or 5000
