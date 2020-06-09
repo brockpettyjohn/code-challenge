@@ -1,7 +1,7 @@
 <div>
-    <div class="col-md-8 mb-2">
-        <span>File Upload</span>
-        <img [src]="image" style="width:200px;height: 250px">
+    <div class="form-group d-flex flex-column">
+        <span>Profile Picture</span>
+        <img [src]="imageFile" style="width:200px;height:250px">
         <input type="file" (change)="onFileSelected($event)">
     </div>
     <div class="form-group col-md-8">
@@ -24,6 +24,5 @@
         <label for="interests">Interests</label>
         <input id="interests" class="form-control" [(ngModel)]="interests" required>
     </div>
-
     <button (click)="createAccount()">Submit</button>
 </div>

@@ -19,6 +19,7 @@ namespace HealthCatalystBackend.Controllers
         {
             AccountRepository = new AccountRepository(configuration, hostingEnvironment);
         }
+        
         [HttpGet]
         public IEnumerable<Account> Get()
         {
